@@ -98,7 +98,7 @@ def add_dependency(dep, project):
 	clone_repo(dep, project)
 	move_library(dep, project)
 
-	lib_dir = locate_library()
+	lib_dir = locate_library(project)
 
 	if lib_dir:
 		print "Moving " + dep.name + " to /deps..."
@@ -186,14 +186,15 @@ def insert_into_settings_gradle(dep, project):
 	with open('settings.gradle', 'w') as f:
 		f.writelines(data)
 
-def locate_library():
+def locate_library(project):
 	print "Locating the library..."
+
+	os.chdir(os.path.join(project.root, 'clonedRepos'))
 
 	for dirname, dirnames, filenames in os.walk('.'):
 	    for filename in filenames:
 	    	if filename == 'build.gradle':
 	        	if is_library_plugin(os.path.join(dirname, filename)):
-	        		# print os.path.join(dirname, filename) + " contains library plugin"
 	        		return dirname
 
 	    if '.git' in dirnames:
