@@ -1,2 +1,6 @@
 .DS_Store
 *.pyc
+adm.egg-info/
+build/
+dist/
+venvpy27/
