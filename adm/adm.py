@@ -71,8 +71,9 @@ def remove_old_dependencies(project):
 	with open('build.gradle', 'r') as f:
 		data = f.readlines()
 
-	for line in data:
+	for line in data[:]:
 		if ':deps' in line:
+			print bcolors.WARNING + "Removing " + line + bcolors.ENDC
 			data.remove(line)
 
 	with open('build.gradle', 'w') as f:
@@ -83,13 +84,10 @@ def remove_old_dependencies(project):
 	with open('settings.gradle', 'r') as f:
 		data = f.readlines()
 
-	print str(data)
-	
-	for line in reversed(data):
+	for line in data[:]:
 		if ':deps' in line:
+			print bcolors.WARNING + "Removing " + line + bcolors.ENDC
 			data.remove(line)
-
-	print str(data)
 
 	with open('settings.gradle', 'w') as f:
 		f.writelines(data)
