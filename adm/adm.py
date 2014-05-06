@@ -83,9 +83,13 @@ def remove_old_dependencies(project):
 	with open('settings.gradle', 'r') as f:
 		data = f.readlines()
 
-	for line in data:
+	print str(data)
+	
+	for line in reversed(data):
 		if ':deps' in line:
 			data.remove(line)
+
+	print str(data)
 
 	with open('settings.gradle', 'w') as f:
 		f.writelines(data)
