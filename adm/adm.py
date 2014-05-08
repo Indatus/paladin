@@ -153,7 +153,7 @@ def add_dependencies(project, data):
 #                                 |_|                                     |___/
 
 def add_dependency(project, dep):
-    print "\nAdding " + dep.name + " to " + project.name + "..."
+    print "\nAdding " + dep.name + " to project..."
     print "--------------------------------"
 
     clone_repo(project, dep)
@@ -166,8 +166,8 @@ def add_dependency(project, dep):
 
     delete_repo(project)
 
-    if not is_library_plugin(os.path.join(top_dir, 'build.gradle')):
-        convert_to_library(project, dep, top_dir)
+    if not is_library_plugin(os.path.join(project.root, 'deps', dep.name, 'build.gradle')):
+        convert_to_library(project, dep)
 
     insert_into_build_gradle(project, dep)
     insert_into_settings_gradle(project, dep)
@@ -197,7 +197,7 @@ def locate_top_build_dir(project, dep):
     for dirname, dirnames, filenames in os.walk(os.path.join(project.root, 'clonedRepos')):
         for filename in filenames:
             if filename == 'build.gradle':
-                return dirname.lstrip('./')
+                return dirname
 
         if '.git' in dirnames:
             dirnames.remove('.git')
@@ -237,15 +237,20 @@ def is_library_plugin(filepath):
     return False
 
 
-def convert_to_library(project, dep, top_dir):
-    with open(os.path.join(top_dir, 'build.gradle'), 'r') as f:
+def convert_to_library(project, dep):
+    print "Converting " + dep.name + " to a proper library..."
+    with open(os.path.join(project.root, 'deps', dep.name, 'build.gradle'), 'r') as f:
         original = f.readlines()
 
-    os.system('rm ' + os.path.join(top_dir, 'build.gradle'))
-    if os.path.exists(os.path.join(top_dir, 'settings.gradle')):
-        os.system('rm ' + os.path.join(top_dir, 'settings.gradle'))
+    os.system('rm ' + os.path.join(project.root, 'deps', dep.name, 'build.gradle'))
+    if os.path.exists(os.path.join(project.root, 'deps', dep.name, 'settings.gradle')):
+        os.system('rm ' + os.path.join(project.root, 'deps', dep.name, 'settings.gradle'))
 
-    lib_dir = locate_library_dir(top_dir)
+    lib_dir = locate_library_dir(project.root, 'deps')
+    if not lib_dir:
+        print bcolors.FAIL + "Skipping installation of " + dep.name + "..." + bcolors.ENDC
+        return
+        
     with open(lib_dir, 'r') as f:
         data = f.readlines()
 
