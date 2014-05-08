@@ -14,7 +14,7 @@ setup(
 	entry_points = {
 		'console_scripts': ['adm = adm.adm:main']
 	},
-	version	= '0.1.0',
+	version	= '0.2.0',
 	description = "Android Dependency Manager for libraries that aren't packaged as .jar or .aar",
 	long_description = long_descr,
 	author = "Jonathon Staff",
