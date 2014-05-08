@@ -169,8 +169,6 @@ def add_dependency(project, dep):
     if not is_library_plugin(os.path.join(project.root, 'deps', dep.name, 'build.gradle')):
         dep = convert_to_library(project, dep)
 
-    print str(dep)
-
     insert_into_build_gradle(project, dep)
     insert_into_settings_gradle(project, dep)
 
@@ -199,7 +197,11 @@ def locate_top_build_dir(project, dep):
     for dirname, dirnames, filenames in os.walk(os.path.join(project.root, 'clonedRepos')):
         for filename in filenames:
             if filename == 'build.gradle':
-                return dirname
+                with open(os.path.join(dirname, 'build.gradle'), 'r') as f:
+                    data = f.readlines()
+
+                if len(data) > 1:
+                    return dirname
 
         if '.git' in dirnames:
             dirnames.remove('.git')
@@ -233,7 +235,7 @@ def delete_repo(project):
 
 def is_library_plugin(filepath):
     for line in open(filepath, 'r'):
-        if 'android-library' in line.rstrip():
+        if 'android-library' in line:
             return True
 
     return False
@@ -244,24 +246,28 @@ def convert_to_library(project, dep):
     with open(os.path.join(project.root, 'deps', dep.name, 'build.gradle'), 'r') as f:
         original = f.readlines()
 
-    lib_dir = locate_library_dir(project, os.path.join(project.root, 'deps', dep.name))
+    lib_dir = locate_library_dir(
+        project, os.path.join(project.root, 'deps', dep.name))
     if not lib_dir:
         print bcolors.FAIL + "Skipping installation of " + dep.name + "..." + bcolors.ENDC
         return
-        
+
     with open(os.path.join(lib_dir, 'build.gradle'), 'r') as f:
         data = f.readlines()
 
     for line in original[::-1]:
-        data.insert(0, line)
+        if '// Top-level' not in line:
+            data.insert(0, line)
 
     with open(os.path.join(lib_dir, 'build.gradle'), 'w') as f:
         f.writelines(data)
 
     # Delete top-level build.gradle and settings.gradle
-    os.system('rm ' + os.path.join(project.root, 'deps', dep.name, 'build.gradle'))
+    os.system('rm ' + os.path.join(
+        project.root, 'deps', dep.name, 'build.gradle'))
     if os.path.exists(os.path.join(project.root, 'deps', dep.name, 'settings.gradle')):
-        os.system('rm ' + os.path.join(project.root, 'deps', dep.name, 'settings.gradle'))
+        os.system('rm ' + os.path.join(
+            project.root, 'deps', dep.name, 'settings.gradle'))
 
     dep.path = lib_dir.rstrip('/build.gradle')
     dep.extended_name = dep.path.lstrip(project.root)
@@ -292,6 +298,7 @@ def locate_library_dir(project, top_dir):
                     return dirname
 
     print bcolors.FAIL + "No library found." + bcolors.ENDC
+
 
 def insert_into_build_gradle(project, dep):
     print "Inserting " + dep.name + " into build.gradle..."
@@ -333,6 +340,7 @@ def insert_into_settings_gradle(project, dep):
     with open(os.path.join(project.root, 'settings.gradle'), 'w') as f:
         f.writelines(data)
 
+
 def update_dep_for_project(project, dep):
     print "Updating " + dep.name + " build.gradle to match the project build.gradle..."
 
@@ -361,7 +369,6 @@ def update_dep_for_project(project, dep):
                 # TODO: offer to do this for them
                 return
 
-
     with open(os.path.join(project.root, 'deps', dep.extended_name, 'build.gradle'), 'w') as f:
         f.writelines(data)
 
@@ -373,6 +380,7 @@ def update_dep_for_project(project, dep):
 # |  _  |  __/ | |_) |  __/ |    | |  | |  __/ |_| | | | (_) | (_| \__ \
 # |_| |_|\___|_| .__/ \___|_|    |_|  |_|\___|\__|_| |_|\___/ \__,_|___/
 #              |_|
+
 
 def locate_main_app(root):
     os.chdir(root)
@@ -402,6 +410,7 @@ def locate_main_app(root):
     print bcolors.FAIL + "Main app not found." + bcolors.ENDC
     sys.exit('No build.gradle file found for the main application.')
 
+
 def is_main_app(filepath):
     for line in open(filepath, 'r'):
         if "'android'" in line.rstrip():
@@ -409,8 +418,9 @@ def is_main_app(filepath):
 
     return False
 
+
 def dependency_name(url):
     name = url.rstrip('.git')
     name = name[::-1]
-    name = name[0 : name.find('/')]
+    name = name[0: name.find('/')]
     return name[::-1]
