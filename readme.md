@@ -1,4 +1,4 @@
-Android Dependency Manager - v1.1.0
+Android Dependency Manager - v0.2.0
 ====================================
 
 Android Dependency Manager for libraries that aren't packaged as .jar or .aar.
