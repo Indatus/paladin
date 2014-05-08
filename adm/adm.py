@@ -167,7 +167,9 @@ def add_dependency(project, dep):
     delete_repo(project)
 
     if not is_library_plugin(os.path.join(project.root, 'deps', dep.name, 'build.gradle')):
-        convert_to_library(project, dep)
+        dep = convert_to_library(project, dep)
+
+    print str(dep)
 
     insert_into_build_gradle(project, dep)
     insert_into_settings_gradle(project, dep)
@@ -242,26 +244,29 @@ def convert_to_library(project, dep):
     with open(os.path.join(project.root, 'deps', dep.name, 'build.gradle'), 'r') as f:
         original = f.readlines()
 
-    os.system('rm ' + os.path.join(project.root, 'deps', dep.name, 'build.gradle'))
-    if os.path.exists(os.path.join(project.root, 'deps', dep.name, 'settings.gradle')):
-        os.system('rm ' + os.path.join(project.root, 'deps', dep.name, 'settings.gradle'))
-
-    lib_dir = locate_library_dir(project.root, 'deps')
+    lib_dir = locate_library_dir(project, os.path.join(project.root, 'deps', dep.name))
     if not lib_dir:
         print bcolors.FAIL + "Skipping installation of " + dep.name + "..." + bcolors.ENDC
         return
         
-    with open(lib_dir, 'r') as f:
+    with open(os.path.join(lib_dir, 'build.gradle'), 'r') as f:
         data = f.readlines()
 
-    for line in original.reverse():
+    for line in original[::-1]:
         data.insert(0, line)
 
-    with open(lib_dir, 'w') as f:
+    with open(os.path.join(lib_dir, 'build.gradle'), 'w') as f:
         f.writelines(data)
+
+    # Delete top-level build.gradle and settings.gradle
+    os.system('rm ' + os.path.join(project.root, 'deps', dep.name, 'build.gradle'))
+    if os.path.exists(os.path.join(project.root, 'deps', dep.name, 'settings.gradle')):
+        os.system('rm ' + os.path.join(project.root, 'deps', dep.name, 'settings.gradle'))
 
     dep.path = lib_dir.rstrip('/build.gradle')
     dep.extended_name = dep.path.lstrip(project.root)
+
+    return dep
 
 
 def locate_library_dir(project, top_dir):
@@ -283,9 +288,8 @@ def locate_library_dir(project, top_dir):
 
         for filename in filenames:
             if filename == 'build.gradle':
-                if is_library_plugin(os.path.join(project.root, dirname.lstrip('./'), filename)):
-                    return os.path.join(project.root, dirname.lstrip('./'))
-
+                if is_library_plugin(os.path.join(dirname, filename)):
+                    return dirname
 
     print bcolors.FAIL + "No library found." + bcolors.ENDC
 

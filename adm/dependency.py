@@ -11,3 +11,6 @@ class Dependency:
 		self.commit = None
 		self.extended_name = name
 		self.path = None
+
+	def __repr__(self):
+		return '{ name: %s, url: %s, extended_name: %s }' % (self.name, self.url, self.extended_name)
