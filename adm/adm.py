@@ -194,7 +194,7 @@ def locate_library(project):
 	for dirname, dirnames, filenames in os.walk('.'):
 	    for filename in filenames:
 	    	if filename == 'build.gradle':
-	        	if is_library_plugin(os.path.join(dirname, filename)):
+	        	# if is_library_plugin(os.path.join(dirname, filename)):
 	        		return dirname
 
 	    if '.git' in dirnames:

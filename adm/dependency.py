@@ -9,3 +9,5 @@ class Dependency:
 		self.branch = "master"
 		self.tag = None
 		self.commit = None
+		self.extended_name = name
+		self.path = None
