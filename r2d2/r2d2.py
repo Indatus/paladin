@@ -35,6 +35,7 @@ def print_adm_header():
     print "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██║" + bcolors.ENDC + "  " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██║███████╗" + bcolors.ENDC + "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██████╔╝███████╗" + bcolors.ENDC
     print "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "╚═╝" + bcolors.ENDC + "  " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "╚═╝╚══════╝" + bcolors.ENDC + "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "╚═════╝" + bcolors.ENDC + " " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "╚══════╝" + bcolors.ENDC
     print "R2-D2 handles your dependencies so you don't have to."
+    print "-----------------------------------------------------\n"
 
 
 def validate_arguments():
