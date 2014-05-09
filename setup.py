@@ -14,7 +14,7 @@ setup(
 	entry_points = {
 		'console_scripts': ['r2d2 = r2d2.r2d2:main']
 	},
-	version	= '0.2.0',
+	version	= '0.3.0',
 	description = "Android Dependency Manager for libraries that aren't packaged as .jar or .aar",
 	long_description = long_descr,
 	author = "Jonathon Staff",

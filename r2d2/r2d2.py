@@ -41,8 +41,7 @@ def print_adm_header():
 def validate_arguments():
     if len(sys.argv) < 2 or sys.argv[1] != 'install':
         print bcolors.FAIL + "Please enter a valid argument to install your dependencies (i.e. 'adm install')." + bcolors.ENDC
-        print str(sys.argv)
-        sys.exit('Invalid arguments.')
+        sys.exit('Invalid arguments. Aborting...')
 
 
 def load_project(root):
@@ -72,8 +71,8 @@ def load_schematic():
     try:
         json_data = open('schematic')
     except IOError:
-        print bcolors.FAIL + "No schematic provided.  Aborting..."
-        sys.exit('No schematic provided.')
+        print bcolors.FAIL + "No schematic provided.  Aborting..." + bcolors.ENDC
+        sys.exit('No schematic provided. Aborting...')
 
     data = json.load(json_data)
     json_data.close()
@@ -268,7 +267,7 @@ def convert_to_library(project, dep):
             project.root, 'toolbox', dep.name, 'settings.gradle'))
 
     dep.path = lib_dir.rstrip('/build.gradle')
-    dep.extended_name = dep.path.lstrip(project.root)
+    dep.extended_name = dep.path.lstrip(os.path.join(project.root, 'toolbox'))
 
     return dep
 
