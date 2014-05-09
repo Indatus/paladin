@@ -266,8 +266,11 @@ def convert_to_library(project, dep):
         os.system('rm ' + os.path.join(
             project.root, 'toolbox', dep.name, 'settings.gradle'))
 
-    dep.path = lib_dir.rstrip('/build.gradle')
-    dep.extended_name = dep.path.lstrip(os.path.join(project.root, 'toolbox'))
+    dep.path = lib_dir.replace('/build.gradle', '')
+    dep.extended_name = dep.path.replace(os.path.join(project.root, 'toolbox'), '')
+    dep.extended_name = dep.extended_name.lstrip('/')
+
+    print "dep.extended_name: " + dep.extended_name
 
     return dep
 
@@ -299,6 +302,7 @@ def locate_library_dir(project, top_dir):
 
 def insert_into_build_gradle(project, dep):
     print "Inserting " + dep.name + " into build.gradle..."
+
     with open(os.path.join(project.root, project.main_dir, 'build.gradle'), 'r') as f:
         data = f.readlines()
 
@@ -325,6 +329,7 @@ def insert_into_build_gradle(project, dep):
 
 def insert_into_settings_gradle(project, dep):
     print "Inserting " + dep.name + " into settings.gradle..."
+
     with open(os.path.join(project.root, 'settings.gradle'), 'r') as f:
         data = f.readlines()
 
