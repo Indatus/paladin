@@ -338,7 +338,7 @@ def insert_into_settings_gradle(project, dep):
             print dep.name + " has already been added to settings.gradle. Skipping this step..."
             return
 
-    data.insert(len(data), "include ':toolbox:" + dep.extended_name + "'")
+    data.insert(len(data), "\ninclude ':toolbox:" + dep.extended_name + "'")
     with open(os.path.join(project.root, 'settings.gradle'), 'w') as f:
         f.writelines(data)
 
