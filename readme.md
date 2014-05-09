@@ -1,4 +1,4 @@
-R2-D2 - v0.3.0
+R2-D2 - v0.3.6
 ====================================
 
 Android Dependency Manager for libraries that aren't packaged as .jar or .aar.
@@ -21,7 +21,11 @@ R2-D2 works to do this for you, quite similar to [CocoaPods](http://cocoapods.or
 Installation
 ============
 
-Download the source and run:
+Run:
+
+	$ pip install r2d2
+
+or download the source and run:
 
 	$ python setup.py install
 
