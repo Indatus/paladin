@@ -27,17 +27,28 @@ def main():
 # |_|  |_|\__,_|_|_| |_| |_|  |_|\___|\__|_| |_|\___/ \__,_|___/
 
 def print_adm_header():
+    # print bcolors.HEADER
+    # print "            __                 "
+    # print "           /\ \                "
+    # print "    __     \_\ \    ___ ___    "
+    # print "  /'__`\   /'_` \ /' __` __`\  "
+    # print " /\ \L\.\_/\ \L\ \/\ \/\ \/\ \ "
+    # print " \ \__/.\_\ \___,_\ \_\ \_\ \_\ "
+    # print "  \/__/\/_/\/__,_ /\/_/\/_/\/_/\n"
+    # print "   Android Dependency Manager\n"
+    # print "-------------------------------\n"
+    
     print bcolors.HEADER
-    print "            __                 "
-    print "           /\ \                "
-    print "    __     \_\ \    ___ ___    "
-    print "  /'__`\   /'_` \ /' __` __`\  "
-    print " /\ \L\.\_/\ \L\ \/\ \/\ \/\ \ "
-    print " \ \__/.\_\ \___,_\ \_\ \_\ \_\ "
-    print "  \/__/\/_/\/__,_ /\/_/\/_/\/_/\n"
-    print "   Android Dependency Manager\n"
-    print "-------------------------------\n"
-    print bcolors.ENDC
+    print " ____        ___             ____       ___     "
+    print "/\  _`\    /'___`\          /\  _`\   /'___`\   "
+    print "\ \ \L\ \ /\_\ /\ \         \ \ \/\ \/\_\ /\ \  "
+    print " \ \ ,  / \/_/// /__  _______\ \ \ \ \/_/// /__ "
+    print "  \ \ \\ \   // /_\ \/\______\\ \ \_\ \ // /_\ \ "
+    print "   \ \_\ \_\/\______/\/______/ \ \____//\______/"
+    print "    \/_/\/ /\/_____/            \/___/ \/_____/ "
+    print "R2-D2 handles your dependencies so you don't have to."
+    print bcolors.ENDC                                            
+
 
 
 def validate_arguments():

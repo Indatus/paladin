@@ -9,10 +9,10 @@ with open('description.rst', 'rb') as f:
 	long_descr = f.read().decode('utf-8')
 
 setup(
-	name = 'adm',
-	packages = ['adm'],
+	name = 'r2d2',
+	packages = ['r2d2'],
 	entry_points = {
-		'console_scripts': ['adm = adm.adm:main']
+		'console_scripts': ['r2d2 = r2d2.r2d2:main']
 	},
 	version	= '0.2.0',
 	description = "Android Dependency Manager for libraries that aren't packaged as .jar or .aar",
