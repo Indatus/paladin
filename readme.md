@@ -1,4 +1,4 @@
-R2-D2 - v0.2.0
+R2-D2 - v0.3.0
 ====================================
 
 Android Dependency Manager for libraries that aren't packaged as .jar or .aar.

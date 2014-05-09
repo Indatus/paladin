@@ -1,33 +1,27 @@
-Android Dependency Manager - (Alpha)
+R2-D2 - 0.3.0
 ====================================
 
 Android Dependency Manager for libraries that aren't packaged as .jar or .aar.
 
 If you have any feedback, don't hesitate to reach out to me on Twitter [@jonathonstaff](https://twitter.com/jonathonstaff).  I'm still actively developing this, and I understand there are some limitations - this is still in alpha.
 
-![adm running in Terminal](adm_screenshot.png)
+![r2d2 running in Terminal](r2d2_screenshot.png)
 
 
 Overview
 ========
 
-adm is designed to assist Android developers who use dependencies in their projects which aren't packaged as .jar or .aar on [Maven Central](http://search.maven.org/).  This is strictly for developers using Android Studio and Gradle.  Before adding a library using adm, I highly recommend searching the Maven Central repositories (check out [Gradle, please](http://gradleplease.appspot.com/)), since this will often provide the best means of incorporating an external library.
+r2d2 is designed to assist Android developers who use dependencies in their projects which aren't packaged as .jar or .aar on [Maven Central](http://search.maven.org/).  This is strictly for developers using Android Studio and Gradle.  Before adding a library using r2d2, I highly recommend searching the Maven Central repositories (check out [Gradle, please](http://gradleplease.appspot.com/)), since this will often provide the best means of incorporating an external library.
 
 That being said, uploading a library to Maven Central is no walk in the park, so developers frequently forgo the process altogether and simply host a public repo with their source code.  The [Facebook SDK for Android](https://github.com/facebook/facebook-android-sdk) for example, (shame on you Facebook, you're more than capable!) isn't available on Maven Central, which forces developers to clone down and manually import the library.
 
-adm works to do this for you, quite similar to [CocoaPods](http://cocoapods.org/) for Objective-C development.  A `/deps` folder is created in the root directory of your project and all adm libraries are stored there.
+r2d2 works to do this for you, quite similar to [CocoaPods](http://cocoapods.org/) for Objective-C development.  A `/deps` folder is created in the root directory of your project and all r2d2 libraries are stored there.
 
 
 Installation
 ============
 
-Run:
-
-````
-$ pip install adm
-````
-
-or download the source and run:
+Download the source and run:
 
 ````
 $ python setup.py install
@@ -37,13 +31,13 @@ $ python setup.py install
 Usage
 =====
 
-Currently `adm install` is the only command that works.  Others will be added in time.
+Currently `r2d2 install` is the only command that works.  Others will be added in time.
 
 
-Create `adm_file`
+Create `r2d2_file`
 -----------------
 
-Create a json file at the root of your project titled `adm_file` with the following format:
+Create a json file at the root of your project titled `r2d2_file` with the following format:
 
 ````
 {
@@ -76,7 +70,7 @@ Installing Dependencies
 -----------------------
 
 ````
-$ adm install
+$ r2d2 install
 ````
 
 You should see the progess displayed in your shell window.  Once this has completed, open Android Studio and **sync** your Gradle project.
@@ -85,10 +79,10 @@ You should see the progess displayed in your shell window.  Once this has comple
 Removing Libraries
 ------------------
 
-You can remove libraries by simply removing that dependency from the `adm_file` and re-running:
+You can remove libraries by simply removing that dependency from the `r2d2_file` and re-running:
 
 ````
-$ adm install
+$ r2d2 install
 ````
 
 

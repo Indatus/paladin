@@ -14,7 +14,7 @@ def main():
     validate_arguments()
 
     project = load_project(os.getcwd())
-    data = load_adm_file()
+    data = load_schematic()
 
     remove_old_dependencies(project)
     add_dependencies(project, data)
@@ -27,28 +27,14 @@ def main():
 # |_|  |_|\__,_|_|_| |_| |_|  |_|\___|\__|_| |_|\___/ \__,_|___/
 
 def print_adm_header():
-    # print bcolors.HEADER
-    # print "            __                 "
-    # print "           /\ \                "
-    # print "    __     \_\ \    ___ ___    "
-    # print "  /'__`\   /'_` \ /' __` __`\  "
-    # print " /\ \L\.\_/\ \L\ \/\ \/\ \/\ \ "
-    # print " \ \__/.\_\ \___,_\ \_\ \_\ \_\ "
-    # print "  \/__/\/_/\/__,_ /\/_/\/_/\/_/\n"
-    # print "   Android Dependency Manager\n"
-    # print "-------------------------------\n"
-    
-    print bcolors.HEADER
-    print " ____        ___             ____       ___     "
-    print "/\  _`\    /'___`\          /\  _`\   /'___`\   "
-    print "\ \ \L\ \ /\_\ /\ \         \ \ \/\ \/\_\ /\ \  "
-    print " \ \ ,  / \/_/// /__  _______\ \ \ \ \/_/// /__ "
-    print "  \ \ \\ \   // /_\ \/\______\\ \ \_\ \ // /_\ \ "
-    print "   \ \_\ \_\/\______/\/______/ \ \____//\______/"
-    print "    \/_/\/ /\/_____/            \/___/ \/_____/ "
+    print bcolors.R2D2_FORE
+    print "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██████╗" + bcolors.ENDC + " " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██████╗" + bcolors.ENDC + "       " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██████╗" + bcolors.ENDC + " " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██████╗" + bcolors.ENDC
+    print "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██╔══██╗╚════██╗" + bcolors.ENDC + "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██╔══██╗╚════██╗" + bcolors.ENDC
+    print "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██████╔╝" + bcolors.ENDC + " " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "█████╔╝█████╗██║" + bcolors.ENDC + "  " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██║" + bcolors.ENDC + " " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "█████╔╝" + bcolors.ENDC
+    print "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██╔══██╗██╔═══╝" + bcolors.ENDC + " " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "╚════╝██║" + bcolors.ENDC + "  " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██║██╔═══╝" + bcolors.ENDC
+    print "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██║" + bcolors.ENDC + "  " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██║███████╗" + bcolors.ENDC + "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██████╔╝███████╗" + bcolors.ENDC
+    print "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "╚═╝" + bcolors.ENDC + "  " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "╚═╝╚══════╝" + bcolors.ENDC + "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "╚═════╝" + bcolors.ENDC + " " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "╚══════╝" + bcolors.ENDC
     print "R2-D2 handles your dependencies so you don't have to."
-    print bcolors.ENDC                                            
-
 
 
 def validate_arguments():
@@ -81,12 +67,12 @@ def load_project(root):
     return project
 
 
-def load_adm_file():
+def load_schematic():
     try:
-        json_data = open('adm_file')
+        json_data = open('schematic')
     except IOError:
-        print bcolors.FAIL + "No adm_file provided.  Aborting..."
-        sys.exit('No adm_file provided.')
+        print bcolors.FAIL + "No schematic provided.  Aborting..."
+        sys.exit('No schematic provided.')
 
     data = json.load(json_data)
     json_data.close()
@@ -96,11 +82,11 @@ def load_adm_file():
 def remove_old_dependencies(project):
     print "Removing old dependencies..."
 
-    # Remove /deps directory
-    if os.path.exists(os.path.join(project.root, 'deps')):
-        shutil.rmtree(os.path.join(project.root, 'deps'))
+    # Remove /toolbox directory
+    if os.path.exists(os.path.join(project.root, 'toolbox')):
+        shutil.rmtree(os.path.join(project.root, 'toolbox'))
 
-    os.mkdir('deps')
+    os.mkdir('toolbox')
 
     # Remove instances from app/build.gradle
     os.chdir(os.path.join(project.root, project.main_dir))
@@ -108,7 +94,7 @@ def remove_old_dependencies(project):
         data = f.readlines()
 
     for line in data[:]:
-        if ':deps' in line:
+        if ':toolbox' in line:
             print bcolors.WARNING + "Removing " + line + bcolors.ENDC
             data.remove(line)
 
@@ -121,7 +107,7 @@ def remove_old_dependencies(project):
         data = f.readlines()
 
     for line in data[:]:
-        if ':deps' in line:
+        if ':toolbox' in line:
             print bcolors.WARNING + "Removing " + line + bcolors.ENDC
             data.remove(line)
 
@@ -171,13 +157,13 @@ def add_dependency(project, dep):
     top_dir = locate_top_build_dir(project, dep)
     check_for_existing_dep(project, dep)
 
-    print "Moving " + dep.name + " to /deps..."
+    print "Moving " + dep.name + " to /toolbox..."
     os.system('mv ' + top_dir + ' ' +
-              os.path.join(project.root, 'deps', dep.name))
+              os.path.join(project.root, 'toolbox', dep.name))
 
     delete_repo(project)
 
-    if not is_library_plugin(os.path.join(project.root, 'deps', dep.name, 'build.gradle')):
+    if not is_library_plugin(os.path.join(project.root, 'toolbox', dep.name, 'build.gradle')):
         dep = convert_to_library(project, dep)
 
     insert_into_build_gradle(project, dep)
@@ -234,9 +220,9 @@ def locate_top_build_dir(project, dep):
 
 
 def check_for_existing_dep(project, dep):
-    if os.path.exists(os.path.join(project.root, 'deps', dep.name)):
+    if os.path.exists(os.path.join(project.root, 'toolbox', dep.name)):
         print dep.name + " already exists. Removing the existing version before moving in the new one."
-        shutil.rmtree(os.path.join(project.root, 'deps', dep.name))
+        shutil.rmtree(os.path.join(project.root, 'toolbox', dep.name))
 
 
 def delete_repo(project):
@@ -254,11 +240,11 @@ def is_library_plugin(filepath):
 
 def convert_to_library(project, dep):
     print "Converting " + dep.name + " to a proper library..."
-    with open(os.path.join(project.root, 'deps', dep.name, 'build.gradle'), 'r') as f:
+    with open(os.path.join(project.root, 'toolbox', dep.name, 'build.gradle'), 'r') as f:
         original = f.readlines()
 
     lib_dir = locate_library_dir(
-        project, os.path.join(project.root, 'deps', dep.name))
+        project, os.path.join(project.root, 'toolbox', dep.name))
     if not lib_dir:
         print bcolors.FAIL + "Skipping installation of " + dep.name + "..." + bcolors.ENDC
         return
@@ -275,10 +261,10 @@ def convert_to_library(project, dep):
 
     # Delete top-level build.gradle and settings.gradle
     os.system('rm ' + os.path.join(
-        project.root, 'deps', dep.name, 'build.gradle'))
-    if os.path.exists(os.path.join(project.root, 'deps', dep.name, 'settings.gradle')):
+        project.root, 'toolbox', dep.name, 'build.gradle'))
+    if os.path.exists(os.path.join(project.root, 'toolbox', dep.name, 'settings.gradle')):
         os.system('rm ' + os.path.join(
-            project.root, 'deps', dep.name, 'settings.gradle'))
+            project.root, 'toolbox', dep.name, 'settings.gradle'))
 
     dep.path = lib_dir.rstrip('/build.gradle')
     dep.extended_name = dep.path.lstrip(project.root)
@@ -316,7 +302,7 @@ def insert_into_build_gradle(project, dep):
     with open(os.path.join(project.root, project.main_dir, 'build.gradle'), 'r') as f:
         data = f.readlines()
 
-    lib_str = "':deps:" + dep.extended_name + "'"
+    lib_str = "':toolbox:" + dep.extended_name + "'"
     for line in data:
         if lib_str in line:
             print dep.name + " has already been added to build.gradle. Skipping this step..."
@@ -327,7 +313,7 @@ def insert_into_build_gradle(project, dep):
     for line in data:
         if count == 0 and line.lstrip().startswith('dependencies') and line.rstrip().endswith('{'):
             data.insert(data.index(line) + 1,
-                        "\tcompile project(':deps:" + dep.extended_name + "')\n")
+                        "\tcompile project(':toolbox:" + dep.extended_name + "')\n")
         if '{' in line:
             count += 1
         if '}' in line:
@@ -347,7 +333,7 @@ def insert_into_settings_gradle(project, dep):
             print dep.name + " has already been added to settings.gradle. Skipping this step..."
             return
 
-    data.insert(len(data), "include ':deps:" + dep.extended_name + "'")
+    data.insert(len(data), "include ':toolbox:" + dep.extended_name + "'")
     with open(os.path.join(project.root, 'settings.gradle'), 'w') as f:
         f.writelines(data)
 
@@ -355,7 +341,7 @@ def insert_into_settings_gradle(project, dep):
 def update_dep_for_project(project, dep):
     print "Updating " + dep.name + " build.gradle to match the project build.gradle..."
 
-    with open(os.path.join(project.root, 'deps', dep.extended_name, 'build.gradle')) as f:
+    with open(os.path.join(project.root, 'toolbox', dep.extended_name, 'build.gradle')) as f:
         data = f.readlines()
 
     for line in data:
@@ -376,11 +362,11 @@ def update_dep_for_project(project, dep):
             projv = project.min_sdk_version.rstrip()[-2:]
 
             if libv > projv:
-                print bcolors.WARNING + "This library requires a minSdkVersion of ", libv, ". Please update your project to match, or remove this library from 'adm_file'." + bcolors.ENDC
+                print bcolors.WARNING + "This library requires a minSdkVersion of ", libv, ". Please update your project to match, or remove this library from 'schematic'." + bcolors.ENDC
                 # TODO: offer to do this for them
                 return
 
-    with open(os.path.join(project.root, 'deps', dep.extended_name, 'build.gradle'), 'w') as f:
+    with open(os.path.join(project.root, 'toolbox', dep.extended_name, 'build.gradle'), 'w') as f:
         f.writelines(data)
 
     return True
