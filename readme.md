@@ -56,7 +56,6 @@ Create a json file at the root of your project titled `schematic` with the follo
 
 Required attributes:
 
-- `"name"`
 - `"url"`
 
 Future attributes:
@@ -64,6 +63,8 @@ Future attributes:
 - `"commit"`
 - `"tag"`
 - `"branch"`
+
+If you do not specifiy `"name"` in the schematic, R2-D2 will do so for you.
 
 
 Installing Dependencies
