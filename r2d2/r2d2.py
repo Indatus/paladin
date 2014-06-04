@@ -119,7 +119,11 @@ def add_dependencies(project, data):
     success_count = 0
     for d in data:
         if d['url']:
-            name = d['name'] or dependency_name(d['url'])
+            if 'name' in d:
+                name = d['name']
+            else:
+                name = dependency_name(d['url'])
+
             dep = Dependency(name, d['url'])
 
             if 'branch' in d:
@@ -131,6 +135,10 @@ def add_dependencies(project, data):
 
             if add_dependency(project, dep):
                 success_count += 1
+        else:
+            print bcolors.FAIL
+            print "You must specify a url for each dependency in the schematic."
+            print bcolors.ENDC
 
     if success_count < len(data):
         color = bcolors.WARNING
