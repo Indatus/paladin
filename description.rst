@@ -1,4 +1,4 @@
-R2-D2 - v0.3.6
+R2-D2 — v0.3.7
 ==============
 
 Android Dependency Manager for libraries that aren't packaged as .jar or
@@ -81,7 +81,6 @@ the following format:
 
 Required attributes:
 
--  ``"name"``
 -  ``"url"``
 
 Future attributes:
@@ -89,6 +88,9 @@ Future attributes:
 -  ``"commit"``
 -  ``"tag"``
 -  ``"branch"``
+
+If you do not specifiy ``"name"`` in the schematic, R2-D2 will do so for
+you.
 
 Installing Dependencies
 -----------------------
