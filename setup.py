@@ -15,10 +15,10 @@ setup(
 	entry_points = {
 		'console_scripts': ['r2d2 = r2d2.r2d2:main']
 	},
-	version	= '0.3.6',
+	version	= '0.3.7',
 	description = "Android Dependency Manager for libraries that aren't packaged as .jar or .aar",
 	long_description = long_descr,
 	author = "Jonathon Staff",
-	author_email = "jon@isprime-design.com",
-	url = "http://jonathonstaff.com"
+	author_email = "jon@nplexity.com",
+	url = "http://jonathonstaff.com/r2d2"
 	)
