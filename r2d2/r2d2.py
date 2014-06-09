@@ -39,6 +39,9 @@ def print_adm_header():
 
 
 def validate_arguments():
+    if len(sys.argv) > 1 and sys.argv[1] == 'removeall'
+        remove_all_dependencies()
+        return
     if len(sys.argv) < 2 or sys.argv[1] != 'install':
         print bcolors.FAIL + "Please enter a valid argument to install your dependencies (i.e. 'adm install')." + bcolors.ENDC
         sys.exit('Invalid arguments. Aborting...')
@@ -150,6 +153,14 @@ def add_dependencies(project, data):
     print bcolors.ENDC
 
 
+def remove_all_dependencies():
+    print "Removing all dependencies..."
+# TODO: delete /toolbox
+# TODO: remove from build.gradle
+# TODO: remove from settings.gradle
+
+
+
 #     _       _     _   ____                            _
 #    / \   __| | __| | |  _ \  ___ _ __   ___ _ __   __| | ___ _ __   ___ _   _
 #   / _ \ / _` |/ _` | | | | |/ _ \ '_ \ / _ \ '_ \ / _` |/ _ \ '_ \ / __| | | |
@@ -167,7 +178,7 @@ def add_dependency(project, dep):
 
     print "Moving " + dep.name + " to /toolbox..."
     os.system('mv ' + top_dir + ' ' +
-              os.path.join(project.root, 'toolbox', dep.name))
+            os.path.join(project.root, 'toolbox', dep.name))
 
     delete_repo(project)
 
@@ -252,7 +263,7 @@ def convert_to_library(project, dep):
         original = f.readlines()
 
     lib_dir = locate_library_dir(
-        project, os.path.join(project.root, 'toolbox', dep.name))
+            project, os.path.join(project.root, 'toolbox', dep.name))
     if not lib_dir:
         print bcolors.FAIL + "Skipping installation of " + dep.name + "..." + bcolors.ENDC
         return
@@ -274,7 +285,7 @@ def convert_to_library(project, dep):
         os.system('rm ' + os.path.join(
             project.root, 'toolbox', dep.name, 'settings.gradle'))
 
-    dep.path = lib_dir.replace('/build.gradle', '')
+        dep.path = lib_dir.replace('/build.gradle', '')
     dep.extended_name = dep.path.replace(os.path.join(project.root, 'toolbox'), '')
     dep.extended_name = dep.extended_name.lstrip('/')
 
@@ -325,9 +336,9 @@ def insert_into_build_gradle(project, dep):
     for line in data:
         if count == 0 and line.lstrip().startswith('dependencies') and line.rstrip().endswith('{'):
             data.insert(data.index(line) + 1,
-                        "\tcompile project(':toolbox:" + dep.extended_name + "')\n")
-        if '{' in line:
-            count += 1
+                    "\tcompile project(':toolbox:" + dep.extended_name + "')\n")
+            if '{' in line:
+                count += 1
         if '}' in line:
             count -= 1
 
