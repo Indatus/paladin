@@ -1,6 +1,6 @@
 .DS_Store
 *.pyc
-r2d2.egg-info/
+paladin.egg-info/
 build/
 dist/
 venvpy27/
