@@ -39,9 +39,10 @@ def print_adm_header():
 
 
 def validate_arguments():
-    if len(sys.argv) > 1 and sys.argv[1] == 'removeall'
+    if len(sys.argv) > 1 and sys.argv[1] == 'removeall':
         remove_all_dependencies()
-        return
+        sys.exit("All dependencies have been removed.")
+
     if len(sys.argv) < 2 or sys.argv[1] != 'install':
         print bcolors.FAIL + "Please enter a valid argument to install your dependencies (i.e. 'adm install')." + bcolors.ENDC
         sys.exit('Invalid arguments. Aborting...')
@@ -155,10 +156,38 @@ def add_dependencies(project, data):
 
 def remove_all_dependencies():
     print "Removing all dependencies..."
-# TODO: delete /toolbox
-# TODO: remove from build.gradle
-# TODO: remove from settings.gradle
+    project = load_project(os.getcwd())
 
+    if os.path.exists(os.path.join(project.root, 'toolbox')):
+        shutil.rmtree(os.path.join(project.root, 'toolbox'))
+
+    os.remove(os.path.join(project.root, 'schematic'))
+
+    # Remove instances from app/build.gradle
+    os.chdir(os.path.join(project.root, project.main_dir))
+    with open('build.gradle', 'r') as f:
+        data = f.readlines()
+
+    for line in data[:]:
+        if ':toolbox' in line:
+            print bcolors.WARNING + "Removing " + line + bcolors.ENDC
+            data.remove(line)
+
+    with open('build.gradle', 'w') as f:
+        f.writelines(data)
+
+    # Remove instances from settings.gradle
+    os.chdir(project.root)
+    with open('settings.gradle', 'r') as f:
+        data = f.readlines()
+
+    for line in data[:]:
+        if ':toolbox' in line:
+            print bcolors.WARNING + "Removing " + line + bcolors.ENDC
+            data.remove(line)
+
+    with open('settings.gradle', 'w') as f:
+        f.writelines(data)
 
 
 #     _       _     _   ____                            _
