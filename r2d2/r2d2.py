@@ -14,7 +14,7 @@ def main():
     validate_arguments()
 
     project = load_project(os.getcwd())
-    data = load_schematic()
+    data = load_orders()
 
     remove_old_dependencies(project)
     add_dependencies(project, data)
@@ -71,12 +71,12 @@ def load_project(root):
     return project
 
 
-def load_schematic():
+def load_orders():
     try:
-        json_data = open('schematic')
+        json_data = open('orders')
     except IOError:
-        print bcolors.FAIL + "No schematic provided.  Aborting..." + bcolors.ENDC
-        sys.exit('No schematic provided. Aborting...')
+        print bcolors.FAIL + "No orders provided.  Aborting..." + bcolors.ENDC
+        sys.exit('No orders provided. Aborting...')
 
     data = json.load(json_data)
     json_data.close()
@@ -141,7 +141,7 @@ def add_dependencies(project, data):
                 success_count += 1
         else:
             print bcolors.FAIL
-            print "You must specify a url for each dependency in the schematic."
+            print "You must specify a url for each dependency in the orders."
             print bcolors.ENDC
 
     if success_count < len(data):
@@ -161,7 +161,7 @@ def remove_all_dependencies():
     if os.path.exists(os.path.join(project.root, 'armory')):
         shutil.rmtree(os.path.join(project.root, 'armory'))
 
-    os.remove(os.path.join(project.root, 'schematic'))
+    os.remove(os.path.join(project.root, 'orders'))
 
     # Remove instances from app/build.gradle
     os.chdir(os.path.join(project.root, project.main_dir))
@@ -415,7 +415,7 @@ def update_dep_for_project(project, dep):
             projv = project.min_sdk_version.rstrip()[-2:]
 
             if libv > projv:
-                print bcolors.WARNING + "This library requires a minSdkVersion of ", libv, ". Please update your project to match, or remove this library from 'schematic'." + bcolors.ENDC
+                print bcolors.WARNING + "This library requires a minSdkVersion of ", libv, ". Please update your project to match, or remove this library from 'orders'." + bcolors.ENDC
                 # TODO: offer to do this for them
                 return
 
