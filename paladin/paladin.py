@@ -27,15 +27,10 @@ def main():
 # |_|  |_|\__,_|_|_| |_| |_|  |_|\___|\__|_| |_|\___/ \__,_|___/
 
 def print_adm_header():
-    print bcolors.R2D2_FORE
-    print "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██████╗" + bcolors.ENDC + " " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██████╗" + bcolors.ENDC + "       " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██████╗" + bcolors.ENDC + " " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██████╗" + bcolors.ENDC
-    print "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██╔══██╗╚════██╗" + bcolors.ENDC + "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██╔══██╗╚════██╗" + bcolors.ENDC
-    print "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██████╔╝" + bcolors.ENDC + " " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "█████╔╝█████╗██║" + bcolors.ENDC + "  " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██║" + bcolors.ENDC + " " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "█████╔╝" + bcolors.ENDC
-    print "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██╔══██╗██╔═══╝" + bcolors.ENDC + " " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "╚════╝██║" + bcolors.ENDC + "  " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██║██╔═══╝" + bcolors.ENDC
-    print "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██║" + bcolors.ENDC + "  " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██║███████╗" + bcolors.ENDC + "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "██████╔╝███████╗" + bcolors.ENDC
-    print "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "╚═╝" + bcolors.ENDC + "  " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "╚═╝╚══════╝" + bcolors.ENDC + "      " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "╚═════╝" + bcolors.ENDC + " " + bcolors.R2D2_FORE + bcolors.R2D2_BACK + "╚══════╝" + bcolors.ENDC
-    print "R2-D2 handles your dependencies so you don't have to."
+    print bcolors.HEADER
+    print "    Paladin fells your dependencies like a boss."
     print "-----------------------------------------------------\n"
+    print bcolors.ENDC
 
 
 def validate_arguments():
@@ -44,7 +39,7 @@ def validate_arguments():
         sys.exit("All dependencies have been removed.")
 
     if len(sys.argv) < 2 or sys.argv[1] != 'install':
-        print bcolors.FAIL + "Please enter a valid argument to install your dependencies (i.e. 'adm install')." + bcolors.ENDC
+        print bcolors.FAIL + "Please enter a valid argument to install your dependencies (i.e. 'paladin install')." + bcolors.ENDC
         sys.exit('Invalid arguments. Aborting...')
 
 

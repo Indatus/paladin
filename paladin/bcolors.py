@@ -2,8 +2,6 @@
 
 class bcolors:
     HEADER = '\033[95m'
-    R2D2_BACK = '\033[44;2m'
-    R2D2_FORE = '\033[37;1m'
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
     WARNING = '\033[93m'
