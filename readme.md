@@ -1,7 +1,7 @@
-Paldadin — v0.4.0
+Paladin — v0.4.0
 ====================================
 
-Android Dependency Manager for libraries that aren't packaged as .jar or .aar.  Paldadin fells your dependencies like boss.
+Android Dependency Manager for libraries that aren't packaged as .jar or .aar.  Paladin fells your dependencies like boss.
 
 If you have any feedback, don't hesitate to reach out to me on Twitter [@jonathonstaff](https://twitter.com/jonathonstaff).  I'm still actively developing this, and I understand there are some limitations - this is still in alpha.
 
