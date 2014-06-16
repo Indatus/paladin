@@ -7,6 +7,7 @@ import shutil
 from .dependency import Dependency
 from .project import Project
 from .bcolors import bcolors
+from .action import Action
 
 # Verbosity levels
 v_lvl = 1
@@ -16,13 +17,19 @@ v_verbose = 1
 
 def main():
     print_paladin_header()
-    validate_arguments()
 
-    #project = load_project(os.getcwd())
-    #data = load_orders()
+    if (validate_arguments()) == Action.INSTALL:
+        project = load_project(os.getcwd())
+        data = load_orders()
 
-    #remove_old_dependencies(project)
-    #add_dependencies(project, data)
+        remove_old_dependencies(project)
+        add_dependencies(project, data)
+        pass
+    elif (validate_arguments()) == Action.REMOVEALL:
+        remove_all_dependencies()
+    else:
+        print validate_arguments()
+        sys.exit("Aborting...")
 
 
 #  __  __       _         __  __      _   _               _
@@ -40,8 +47,9 @@ def print_paladin_header():
 
 def validate_arguments():
     global v_lvl
-    
 
+    if len(sys.argv) < 2:
+        return bcolors.FAIL + "Please enter a valid argument." + bcolors.ENDC
     for arg in sys.argv:
         if arg == 'paladin' or arg == 'paladin-runner.py':
             pass
@@ -49,20 +57,10 @@ def validate_arguments():
             v_lvl = v_quiet
         if arg == '-v' or arg == '--verbose':
             v_lvl = v_verbose
-        if arg == 'install'
+        if arg == 'install':
             pass
 
 
-
-    if "-q" in sys.argv or "--quiet" in sys.argv:
-        v_lvl = v_quiet
-        print "setting as quiet"
-
-    if "-v" in sys.argv or "--verbose" in sys.argv:
-        v_lvl = v_verbose
-        print "setting as verbose"
-
-    print "number of args: " , len(sys.argv)
 
     #if len(sys.argv) > 1 and sys.argv[1] == 'removeall':
         #remove_all_dependencies()
