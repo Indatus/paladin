@@ -15,7 +15,7 @@ setup(
 	entry_points = {
 		'console_scripts': ['paladin = paladin.paladin:main']
 	},
-	version	= '0.4.1',
+	version	= '0.5.0',
 	description = "Android Dependency Manager for libraries that aren't packaged as .jar or .aar - Paladin fells your dependencies like a boss.",
 	long_description = long_descr,
 	author = "Jonathon Staff",
