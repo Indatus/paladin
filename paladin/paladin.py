@@ -332,7 +332,7 @@ def is_library_plugin(filepath):
 def convert_to_library(project, dep):
     if not v_lvl == v_quiet:
         print "Converting " + dep.name + " to a proper library..."
-        
+
     with open(os.path.join(project.root, 'armory', dep.name, 'build.gradle'), 'r') as f:
         original = f.readlines()
 
