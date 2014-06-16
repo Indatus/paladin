@@ -8,16 +8,21 @@ from .dependency import Dependency
 from .project import Project
 from .bcolors import bcolors
 
+# Verbosity levels
+v_lvl = 1
+v_quiet = -1
+v_normal = 0
+v_verbose = 1
 
 def main():
-    print_adm_header()
+    print_paladin_header()
     validate_arguments()
 
-    project = load_project(os.getcwd())
-    data = load_orders()
+    #project = load_project(os.getcwd())
+    #data = load_orders()
 
-    remove_old_dependencies(project)
-    add_dependencies(project, data)
+    #remove_old_dependencies(project)
+    #add_dependencies(project, data)
 
 
 #  __  __       _         __  __      _   _               _
@@ -26,7 +31,7 @@ def main():
 # | |  | | (_| | | | | | | |  | |  __/ |_| | | | (_) | (_| \__ \
 # |_|  |_|\__,_|_|_| |_| |_|  |_|\___|\__|_| |_|\___/ \__,_|___/
 
-def print_adm_header():
+def print_paladin_header():
     print bcolors.HEADER
     print "    Paladin fells your dependencies like a boss."
     print "-----------------------------------------------------\n"
@@ -34,13 +39,38 @@ def print_adm_header():
 
 
 def validate_arguments():
-    if len(sys.argv) > 1 and sys.argv[1] == 'removeall':
-        remove_all_dependencies()
-        sys.exit("All dependencies have been removed.")
+    global v_lvl
+    
 
-    if len(sys.argv) < 2 or sys.argv[1] != 'install':
-        print bcolors.FAIL + "Please enter a valid argument to install your dependencies (i.e. 'paladin install')." + bcolors.ENDC
-        sys.exit('Invalid arguments. Aborting...')
+    for arg in sys.argv:
+        if arg == 'paladin' or arg == 'paladin-runner.py':
+            pass
+        if arg == '-q' or arg == '--quiet':
+            v_lvl = v_quiet
+        if arg == '-v' or arg == '--verbose':
+            v_lvl = v_verbose
+        if arg == 'install'
+            pass
+
+
+
+    if "-q" in sys.argv or "--quiet" in sys.argv:
+        v_lvl = v_quiet
+        print "setting as quiet"
+
+    if "-v" in sys.argv or "--verbose" in sys.argv:
+        v_lvl = v_verbose
+        print "setting as verbose"
+
+    print "number of args: " , len(sys.argv)
+
+    #if len(sys.argv) > 1 and sys.argv[1] == 'removeall':
+        #remove_all_dependencies()
+        #sys.exit("All dependencies have been removed.")
+
+    #if len(sys.argv) < 2 or sys.argv[1] != 'install':
+        #print bcolors.FAIL + "Please enter a valid argument to install your dependencies (i.e. 'paladin install')." + bcolors.ENDC
+        #sys.exit('Invalid arguments. Aborting...')
 
 
 def load_project(root):
@@ -144,7 +174,7 @@ def add_dependencies(project, data):
     else:
         color = bcolors.OKGREEN
     print color + "\n------------------------"
-    print "adm finished: "
+    print "Paladin finished: "
     print success_count, " of ", len(data), " dependencies added successfully."
     print bcolors.ENDC
 
@@ -230,7 +260,7 @@ def clone_repo(project, dep):
     os.chdir('clonedRepos')
 
     print "Cloning " + dep.name + "..."
-    os.system('git clone ' + dep.url)
+    os.system('git clone -q ' + dep.url)
 
 
 def locate_top_build_dir(project, dep):
