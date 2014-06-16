@@ -47,28 +47,23 @@ def print_paladin_header():
 
 def validate_arguments():
     global v_lvl
+    action = bcolors.FAIL + "Please enter a valid argument." + bcolors.ENDC
 
-    if len(sys.argv) < 2:
-        return bcolors.FAIL + "Please enter a valid argument." + bcolors.ENDC
     for arg in sys.argv:
         if arg == 'paladin' or arg == 'paladin-runner.py':
             pass
-        if arg == '-q' or arg == '--quiet':
+        elif arg == '-q' or arg == '--quiet':
             v_lvl = v_quiet
-        if arg == '-v' or arg == '--verbose':
+        elif arg == '-v' or arg == '--verbose':
             v_lvl = v_verbose
-        if arg == 'install':
-            pass
+        elif arg == 'install':
+            action = Action.INSTALL
+        elif arg == 'removeall':
+            action = Action.REMOVEALL
+        else:
+            return bcolors.WARNING + "Unknown argument: " + arg + bcolors.ENDC
 
-
-
-    #if len(sys.argv) > 1 and sys.argv[1] == 'removeall':
-        #remove_all_dependencies()
-        #sys.exit("All dependencies have been removed.")
-
-    #if len(sys.argv) < 2 or sys.argv[1] != 'install':
-        #print bcolors.FAIL + "Please enter a valid argument to install your dependencies (i.e. 'paladin install')." + bcolors.ENDC
-        #sys.exit('Invalid arguments. Aborting...')
+    return action
 
 
 def load_project(root):
