@@ -30,7 +30,7 @@ or download the source and run:
 Usage
 =====
 
-Paladin needs orders before he can carry them out.
+Paladin needs orders before he can carry them out.  Commands can be run with either a `-v, --verbose` flag or `-q, --quiet` flag to change the level of output printed in the command line.
 
 Create `orders`
 ---------------
