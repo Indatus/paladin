@@ -1,13 +1,12 @@
-Paladin — v0.5.0
+Paladin — v0.5.1
 ================
 
 Android Dependency Manager for libraries that aren't packaged as .jar or
-.aar. Paladin fells your dependencies like boss.
+.aar — Paladin fells your dependencies like boss.
 
 If you have any feedback, don't hesitate to reach out to me on Twitter
 [@jonathonstaff](https://twitter.com/jonathonstaff). I'm still actively
-developing this, and I understand there are some limitations - this is
-still in alpha.
+developing this, and I understand there are some limitations.
 
 Overview
 ========
@@ -51,7 +50,9 @@ or download the source and run:
 Usage
 =====
 
-Paladin needs orders before he can carry them out.
+Paladin needs orders before he can carry them out. Commands can be run
+with either a ``-v, --verbose`` flag or ``-q, --quiet`` flag to change
+the level of output printed in the command line.
 
 Create ``orders``
 -----------------
