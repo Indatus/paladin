@@ -16,9 +16,8 @@ v_normal = 0
 v_verbose = 1
 
 def main():
-    print_paladin_header()
-
     if validate_arguments() == Action.INSTALL:
+        print_paladin_header()
         project = load_project(os.getcwd())
         data = load_orders()
 
@@ -26,8 +25,13 @@ def main():
         add_dependencies(project, data)
         pass
     elif validate_arguments() == Action.REMOVEALL:
+        print_paladin_header()
         remove_all_dependencies()
+    elif validate_arguments() == Action.VERSION:
+        print bcolors.HEADER + "Paladin - v0.5.2\n" + bcolors.ENDC
+        sys.exit()
     else:
+        print_paladin_header()
         print validate_arguments()
         sys.exit("Aborting...")
 
@@ -48,6 +52,9 @@ def print_paladin_header():
 def validate_arguments():
     global v_lvl
     action = bcolors.FAIL + "Please enter a valid argument." + bcolors.ENDC
+
+    if len(sys.argv) == 2 and ('-V' in sys.argv or '--version' in sys.argv):
+        return Action.VERSION
 
     for arg in sys.argv:
         if 'paladin' in arg:
