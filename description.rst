@@ -1,4 +1,4 @@
-Paladin — v0.5.2
+Paladin — v0.6.0
 ================
 
 Android Dependency Manager for libraries that aren't packaged as .jar or

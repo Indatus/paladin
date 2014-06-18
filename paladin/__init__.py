@@ -1,3 +1,3 @@
 """This is intentionally left blank at the moment."""
 
-__version__ = "0.5.2"
+__version__ = "0.6.0"

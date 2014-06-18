@@ -28,7 +28,7 @@ def main():
         print_paladin_header()
         remove_all_dependencies()
     elif validate_arguments() == Action.VERSION:
-        print bcolors.HEADER + "Paladin - v0.5.2\n" + bcolors.ENDC
+        print bcolors.HEADER + "Paladin - v0.6.0\n" + bcolors.ENDC
         sys.exit()
     else:
         print_paladin_header()
@@ -245,8 +245,11 @@ def add_dependency(project, dep):
     if not v_lvl == v_quiet:
         print "Moving " + dep.name + " to /armory..."
 
-    os.system('mv ' + top_dir + ' ' +
-            os.path.join(project.root, 'armory', dep.name))
+    mv_cmd = 'mv ' + top_dir + ' ' + escaped_path(os.path.join(project.root, 'armory', dep.name))
+    if v_lvl == v_verbose:
+        print "Executing: " + mv_cmd
+
+    os.system(mv_cmd)
 
     delete_repo(project)
 
@@ -281,7 +284,7 @@ def clone_repo(project, dep):
     if not v_lvl == v_verbose:
         os.system('git clone -q ' + dep.url)
     else:
-        os.system('git clone ' + dep.ur)
+        os.system('git clone ' + dep.url)
 
 
 def locate_top_build_dir(project, dep):
@@ -292,7 +295,7 @@ def locate_top_build_dir(project, dep):
                     data = f.readlines()
 
                 if len(data) > 1:
-                    return dirname
+                    return escaped_path(dirname)
 
         if '.git' in dirnames:
             dirnames.remove('.git')
@@ -398,7 +401,7 @@ def locate_library_dir(project, top_dir):
         for filename in filenames:
             if filename == 'build.gradle':
                 if is_library_plugin(os.path.join(dirname, filename)):
-                    return dirname
+                    return escaped_path(dirname)
 
     if not v_lvl == v_quiet:
         print bcolors.FAIL + "No library found." + bcolors.ENDC
@@ -518,7 +521,7 @@ def locate_main_app(root):
                     if v_lvl == v_verbose:
                         print os.path.join(dirname, filename) + " is the main app"
 
-                    return dirname.lstrip('./')
+                    return escaped_path(dirname.lstrip('./'))
 
     print bcolors.FAIL + "Main app not found." + bcolors.ENDC
     sys.exit('No build.gradle file found for the main application.')
@@ -537,3 +540,6 @@ def dependency_name(url):
     name = name[::-1]
     name = name[0: name.find('/')]
     return name[::-1]
+
+def escaped_path(path):
+    return path.replace(' ', '\ ')
