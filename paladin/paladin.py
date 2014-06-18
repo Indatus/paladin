@@ -398,7 +398,7 @@ def locate_library_dir(project, top_dir):
 
 
 def insert_into_build_gradle(project, dep):
-    if not v_lvl = v_quiet:
+    if not v_lvl == v_quiet:
         print "Inserting " + dep.name + " into build.gradle..."
 
     with open(os.path.join(project.root, project.main_dir, 'build.gradle'), 'r') as f:
@@ -446,7 +446,7 @@ def insert_into_settings_gradle(project, dep):
 
 
 def update_dep_for_project(project, dep):
-    if not v_lvl = v_quiet:
+    if not v_lvl == v_quiet:
         print "Updating " + dep.name + " build.gradle to match the project build.gradle..."
 
     with open(os.path.join(project.root, 'armory', dep.extended_name, 'build.gradle')) as f:
@@ -508,7 +508,7 @@ def locate_main_app(root):
         for filename in filenames:
             if filename == 'build.gradle':
                 if is_main_app(os.path.join(dirname, filename)):
-                    if v_lvl = v_verbose:
+                    if v_lvl == v_verbose:
                         print os.path.join(dirname, filename) + " is the main app"
 
                     return dirname.lstrip('./')
