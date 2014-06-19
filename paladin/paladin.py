@@ -313,6 +313,8 @@ def locate_top_build_dir(project, dep):
             dirnames.remove('build')
 
     print bcolors.FAIL + "No build.gradle file found for library " + dep.name + bcolors.ENDC
+
+    delete_repo(project)
     sys.exit()
 
 
