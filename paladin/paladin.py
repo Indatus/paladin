@@ -112,11 +112,11 @@ def remove_old_dependencies(project):
     if not v_lvl == v_quiet:
         print "Removing old dependencies..."
 
-    # Remove /armory directory
-    if os.path.exists(os.path.join(project.root, 'armory')):
-        shutil.rmtree(os.path.join(project.root, 'armory'))
+    # Remove /.armory directory
+    if os.path.exists(os.path.join(project.root, '.armory')):
+        shutil.rmtree(os.path.join(project.root, '.armory'))
 
-    os.mkdir('armory')
+    os.mkdir('.armory')
 
     # Remove instances from app/build.gradle
     os.chdir(os.path.join(project.root, project.main_dir))
@@ -124,7 +124,7 @@ def remove_old_dependencies(project):
         data = f.readlines()
 
     for line in data[:]:
-        if ':armory' in line:
+        if ':.armory' in line:
             if not v_lvl == v_quiet:
                 print bcolors.WARNING + "Removing " + line + bcolors.ENDC
 
@@ -139,7 +139,7 @@ def remove_old_dependencies(project):
         data = f.readlines()
 
     for line in data[:]:
-        if ':armory' in line:
+        if ':.armory' in line:
             if not v_lvl == v_quiet:
                 print bcolors.WARNING + "Removing " + line + bcolors.ENDC
 
@@ -190,8 +190,8 @@ def remove_all_dependencies():
 
     project = load_project(os.getcwd())
 
-    if os.path.exists(os.path.join(project.root, 'armory')):
-        shutil.rmtree(os.path.join(project.root, 'armory'))
+    if os.path.exists(os.path.join(project.root, '.armory')):
+        shutil.rmtree(os.path.join(project.root, '.armory'))
 
     os.remove(os.path.join(project.root, 'orders'))
 
@@ -201,7 +201,7 @@ def remove_all_dependencies():
         data = f.readlines()
 
     for line in data[:]:
-        if ':armory' in line:
+        if ':.armory' in line:
             if not v_lvl == v_quiet:
                 print bcolors.WARNING + "Removing " + line + bcolors.ENDC
 
@@ -216,7 +216,7 @@ def remove_all_dependencies():
         data = f.readlines()
 
     for line in data[:]:
-        if ':armory' in line:
+        if ':.armory' in line:
             if not v_lvl == v_quiet:
                 print bcolors.WARNING + "Removing " + line + bcolors.ENDC
 
@@ -243,9 +243,9 @@ def add_dependency(project, dep):
     check_for_existing_dep(project, dep)
 
     if not v_lvl == v_quiet:
-        print "Moving " + dep.name + " to /armory..."
+        print "Moving " + dep.name + " to /.armory..."
 
-    mv_cmd = 'mv ' + top_dir + ' ' + escaped_path(os.path.join(project.root, 'armory', dep.name))
+    mv_cmd = 'mv ' + top_dir + ' ' + escaped_path(os.path.join(project.root, '.armory', dep.name))
     if v_lvl == v_verbose:
         print "Executing: " + mv_cmd
 
@@ -253,7 +253,7 @@ def add_dependency(project, dep):
 
     delete_repo(project)
 
-    if not is_library_plugin(os.path.join(project.root, 'armory', dep.name, 'build.gradle')):
+    if not is_library_plugin(os.path.join(project.root, '.armory', dep.name, 'build.gradle')):
         dep = convert_to_library(project, dep)
 
     insert_into_build_gradle(project, dep)
@@ -317,11 +317,11 @@ def locate_top_build_dir(project, dep):
 
 
 def check_for_existing_dep(project, dep):
-    if os.path.exists(os.path.join(project.root, 'armory', dep.name)):
+    if os.path.exists(os.path.join(project.root, '.armory', dep.name)):
         if not v_lvl == v_quiet:
             print dep.name + " already exists. Removing the existing version before moving in the new one."
 
-        shutil.rmtree(os.path.join(project.root, 'armory', dep.name))
+        shutil.rmtree(os.path.join(project.root, '.armory', dep.name))
 
 
 def delete_repo(project):
@@ -343,11 +343,11 @@ def convert_to_library(project, dep):
     if not v_lvl == v_quiet:
         print "Converting " + dep.name + " to a proper library..."
 
-    with open(os.path.join(project.root, 'armory', dep.name, 'build.gradle'), 'r') as f:
+    with open(os.path.join(project.root, '.armory', dep.name, 'build.gradle'), 'r') as f:
         original = f.readlines()
 
     lib_dir = locate_library_dir(
-            project, os.path.join(project.root, 'armory', dep.name))
+            project, os.path.join(project.root, '.armory', dep.name))
     if not lib_dir:
         if not v_lvl == v_quiet:
             print bcolors.FAIL + "Skipping installation of " + dep.name + "..." + bcolors.ENDC
@@ -366,13 +366,13 @@ def convert_to_library(project, dep):
 
     # Delete top-level build.gradle and settings.gradle
     os.system('rm ' + os.path.join(
-        project.root, 'armory', dep.name, 'build.gradle'))
-    if os.path.exists(os.path.join(project.root, 'armory', dep.name, 'settings.gradle')):
+        project.root, '.armory', dep.name, 'build.gradle'))
+    if os.path.exists(os.path.join(project.root, '.armory', dep.name, 'settings.gradle')):
         os.system('rm ' + os.path.join(
-            project.root, 'armory', dep.name, 'settings.gradle'))
+            project.root, '.armory', dep.name, 'settings.gradle'))
 
         dep.path = lib_dir.replace('/build.gradle', '')
-    dep.extended_name = dep.path.replace(os.path.join(project.root, 'armory'), '')
+    dep.extended_name = dep.path.replace(os.path.join(project.root, '.armory'), '')
     dep.extended_name = dep.extended_name.lstrip('/')
 
     if v_lvl == v_verbose:
@@ -414,7 +414,7 @@ def insert_into_build_gradle(project, dep):
     with open(os.path.join(project.root, project.main_dir, 'build.gradle'), 'r') as f:
         data = f.readlines()
 
-    lib_str = "':armory:" + dep.extended_name + "'"
+    lib_str = "':.armory:" + dep.extended_name + "'"
     for line in data:
         if lib_str in line:
             if not v_lvl == v_quiet:
@@ -426,7 +426,7 @@ def insert_into_build_gradle(project, dep):
     for line in data:
         if count == 0 and line.lstrip().startswith('dependencies') and line.rstrip().endswith('{'):
             data.insert(data.index(line) + 1,
-                    "\tcompile project(':armory:" + dep.extended_name + "')\n")
+                    "\tcompile project(':.armory:" + dep.extended_name + "')\n")
             if '{' in line:
                 count += 1
         if '}' in line:
@@ -450,7 +450,7 @@ def insert_into_settings_gradle(project, dep):
 
             return
 
-    data.insert(len(data), "\ninclude ':armory:" + dep.extended_name + "'")
+    data.insert(len(data), "\ninclude ':.armory:" + dep.extended_name + "'")
     with open(os.path.join(project.root, 'settings.gradle'), 'w') as f:
         f.writelines(data)
 
@@ -459,7 +459,7 @@ def update_dep_for_project(project, dep):
     if not v_lvl == v_quiet:
         print "Updating " + dep.name + " build.gradle to match the project build.gradle..."
 
-    with open(os.path.join(project.root, 'armory', dep.extended_name, 'build.gradle')) as f:
+    with open(os.path.join(project.root, '.armory', dep.extended_name, 'build.gradle')) as f:
         data = f.readlines()
 
     for line in data:
@@ -484,7 +484,7 @@ def update_dep_for_project(project, dep):
                 # TODO: offer to do this for them
                 return
 
-    with open(os.path.join(project.root, 'armory', dep.extended_name, 'build.gradle'), 'w') as f:
+    with open(os.path.join(project.root, '.armory', dep.extended_name, 'build.gradle'), 'w') as f:
         f.writelines(data)
 
     return True
