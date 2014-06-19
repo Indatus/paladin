@@ -10,7 +10,7 @@ from .bcolors import bcolors
 from .action import Action
 
 # Verbosity levels
-v_lvl = 1
+v_lvl = 0
 v_quiet = -1
 v_normal = 0
 v_verbose = 1
@@ -28,7 +28,7 @@ def main():
         print_paladin_header()
         remove_all_dependencies()
     elif validate_arguments() == Action.VERSION:
-        print bcolors.HEADER + "Paladin - v0.6.0\n" + bcolors.ENDC
+        print bcolors.HEADER + "Paladin - v0.6.1\n" + bcolors.ENDC
         sys.exit()
     else:
         print_paladin_header()
