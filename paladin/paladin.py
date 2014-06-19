@@ -101,7 +101,7 @@ def load_orders():
         json_data = open('orders')
     except IOError:
         print bcolors.FAIL + "No orders provided.  Aborting..." + bcolors.ENDC
-        sys.exit('No orders provided. Aborting...')
+        sys.exit()
 
     data = json.load(json_data)
     json_data.close()
@@ -313,7 +313,7 @@ def locate_top_build_dir(project, dep):
             dirnames.remove('build')
 
     print bcolors.FAIL + "No build.gradle file found for library " + dep.name + bcolors.ENDC
-    sys.exit("No build.gradle file found for library " + dep.name)
+    sys.exit()
 
 
 def check_for_existing_dep(project, dep):
