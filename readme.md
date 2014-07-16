@@ -12,7 +12,7 @@ Paladin is designed to assist Android developers who use dependencies in their p
 
 That being said, uploading a library to Maven Central is no walk in the park, so developers frequently forgo the process altogether and simply host a public repo with their source code.  The [Facebook SDK for Android](https://github.com/facebook/facebook-android-sdk) for example, (shame on you Facebook, you're more than capable!) isn't available on Maven Central, which forces developers to clone down and manually import the library.
 
-Paladin works to do this for you, quite similar to [CocoaPods](http://cocoapods.org/) for Objective-C development.  An `/armory` folder is created in the root directory of your project and all Paladin libraries are stored there.
+Paladin works to do this for you, quite similar to [CocoaPods](http://cocoapods.org/) for Objective-C development.  An `/.armory` folder is created in the root directory of your project and all Paladin libraries are stored there.
 
 
 Installation
