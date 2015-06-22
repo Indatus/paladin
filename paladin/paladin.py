@@ -335,7 +335,7 @@ def delete_repo(project):
 
 def is_library_plugin(filepath):
     for line in open(filepath, 'r'):
-        if 'android-library' in line:
+        if 'android-library' in line or 'com.android.library' in line:
             return True
 
     return False
